@@ -138,15 +138,24 @@ class CustomerManagement : AppCompatActivity() {
             val name = etValues("name")
             val email = etValues("email")
             val mobile = etValues("mobile")
-            val idInt = parseInt(id)
+            var idInt = 0
+
+            // Parse ID to an integer for the database
+            try {
+                idInt = parseInt(id)
+            } catch (e: NumberFormatException) {
+                println("Incorrect ID input")
+            }
+
+            if (id.length != 6){
+                toastMessage("Please enter a 6 digit ID")
+                return@setOnClickListener
+            }
 
             if (checkEmptyET(id, "Must have an ID")) return@setOnClickListener
             if (checkEmptyET(name, "Must have a name")) return@setOnClickListener
             if (checkForDuplicates(id, "Duplicate entry found, cannot add")) return@setOnClickListener
-            if (id.length != 6){
-                toastMessage("Please enter a unique 6 digit ID number")
-                return@setOnClickListener
-            }
+
             else{
                 db.addCustomer(idInt, name, email, mobile)
                 toastMessage("$name added to database")
