@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="app_name">Customer Management</string>
+    <string name="enter_name">Name</string>
+    <string name="add_new">Add New</string>
+    <string name="delete_by_id">Delete</string>
+    <string name="update_by_id">Update</string>
+    <string name="display_all">Display</string>
+    <string name="customers_n">Customers:\n</string>
+    <string name="delete_database">Delete Database</string>
+    <string name="enter_email">Email</string>
+    <string name="enter_mobile">Mobile</string>
+    <string name="id">ID</string>
+    <string name="reset_database">RESET</string>
+    <string name="display">Display All</string>
+    <string name="search">Search</string>
+</resources>
