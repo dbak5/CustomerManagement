@@ -221,6 +221,7 @@ class CustomerManagement : AppCompatActivity() {
             db.close()
             initialiseDefaultCustomerList(db)
             toastMessage("Database has been reset")
+            clearEditTextBoxes()
         }
         //endregion
 
