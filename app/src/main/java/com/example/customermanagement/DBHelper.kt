@@ -2,10 +2,12 @@ package com.example.customermanagement
 
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 /*
 Name: DaHye Baker
@@ -54,17 +56,35 @@ class DBHelper(context: Context) :
 
     // Add a customer record in DB
     fun addCustomer(id: Int, name: String, email: String, mobile: String) {
-        // This ContentValues class is used to store a set of values
-        val values = ContentValues()
-        // insert key-value pairs
-        values.put(ID, id)
-        values.put(NAME, name)
-        values.put(EMAIL, email)
-        values.put(MOBILE, mobile)
         // create a writable DB variable of our database to insert record
         val db = this.writableDatabase
-        // insert all values into DB
-        db.insert(TABLE_NAME, null, values)
+
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME", null) // only 1 row
+        if (cursor.moveToFirst()) {
+            cursor.getInt(cursor.getColumnIndexOrThrow(ID))
+            cursor.getString(cursor.getColumnIndexOrThrow(NAME))
+        }
+
+        db.beginTransaction()
+        try {
+            // insert key-value pairs
+            val values = ContentValues()
+            values.put(ID, id)
+            values.put(NAME, name)
+            values.put(EMAIL, email)
+            values.put(MOBILE, mobile)
+
+            // insert all values into DB
+            db.insert(TABLE_NAME, null, values)
+
+            // commit the transaction if all database operations were successful
+            db.setTransactionSuccessful()
+        } catch (e: Exception) {
+            // rollback the transaction if there was an error
+            Log.e(TAG, "Error inserting data into the database", e)
+        } finally {
+            db.endTransaction()
+        }
         db.close()
     }
 
@@ -81,6 +101,7 @@ class DBHelper(context: Context) :
             else -> {
                 db.rawQuery("SELECT * FROM $TABLE_NAME", null)
             }
+
         }
 
         // read all records from DB and get the cursor
@@ -99,6 +120,7 @@ class DBHelper(context: Context) :
             } while (cursor.moveToNext())
         }
         cursor.close()
+        db.close()
         return customerList
     }
 
@@ -114,16 +136,36 @@ class DBHelper(context: Context) :
 
     // Update a customer’s info by ID
     fun updateCustomer(id: String, name: String, email: String, mobile: String): Int {
-        // create a writable DB variable of our database to update record
+        // create a writable DB variable of our database to insert record
         val db = this.writableDatabase
-        // ContentValues class stores a set of values
-        val values = ContentValues()
-        values.put(NAME, name)
-        values.put(EMAIL, email)
-        values.put(MOBILE, mobile)
-        val rows = db.update(TABLE_NAME, values, "id=?", arrayOf(id))
-        db.close()
-        return rows
+
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_NAME", null) // only 1 row
+        if (cursor.moveToFirst()) {
+            cursor.getInt(cursor.getColumnIndexOrThrow(ID))
+            cursor.getString(cursor.getColumnIndexOrThrow(NAME))
+        }
+
+        db.beginTransaction()
+        var row = -1
+        try {
+            // insert key-value pairs
+            val values = ContentValues()
+            values.put(NAME, name)
+            values.put(EMAIL, email)
+            values.put(MOBILE, mobile)
+
+            // Update all values into DB
+            row = db.update(TABLE_NAME, values, "$ID=?", arrayOf(id))
+            // commit the transaction if all database operations were successful
+            db.setTransactionSuccessful()
+        } catch (e: Exception) {
+            // rollback the transaction if there was an error
+            Log.e(TAG, "Error updating data into the database", e)
+        } finally {
+            db.endTransaction()
+            db.close()
+        }
+        return row
     }
 
     // Delete database, return boolean

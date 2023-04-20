@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Edit text to enter id -->
+    <EditText
+        android:id="@+id/etId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:autofillHints=""
+        android:hint="@string/id"
+        android:importantForAutofill="no"
+        android:inputType="number"
+        android:maxLength="6"
+        android:textSize="20sp" />
+
+    <!-- Edit text to enter name -->
+    <EditText
+        android:id="@+id/etName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/enter_name"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:layout_margin="10dp"
+        android:textSize="20sp" />
+
+    <!-- Edit text to enter email -->
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:autofillHints=""
+        android:hint="@string/enter_email"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textSize="20sp"/>
+
+    <!-- Edit text to enter mobile -->
+    <EditText
+        android:id="@+id/etMobile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:autofillHints=""
+        android:hint="@string/enter_mobile"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textSize="20sp" />
+</LinearLayout>

@@ -8,6 +8,6 @@ class Customer(
 ) {
 
     override fun toString(): String {
-        return "$id: $name: $email: $mobile"
+        return "\nID: $id\nName: $name\nEmail: $email\nMobile: $mobile"
     }
 }
